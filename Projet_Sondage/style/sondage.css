@@ -1,0 +1,16 @@
+#copyright 
+{
+	margin: 20px 0 5px 0;
+	text-align: right;
+	font-size: .8em;
+	color: #ff032d;
+}
+#copyright a 
+{
+	color: #ff032d;
+	text-decoration: none;
+}
+#copyright a:hover, #copyright a:focus 
+{
+	text-decoration: underline;
+}

@@ -1,0 +1,127 @@
+@font-face 
+{
+	font-family: 'titre';
+	src: url('../fonts/Caliopevictorian-KyYX.ttf') format('truetype');
+}
+  
+@font-face 
+{
+	font-family: 'bouton';
+	src: url('../fonts/VictorianDecadeDemoVersion-2O7ml.otf') format('opentype');
+}
+
+@font-face 
+{
+	font-family: 'texte';
+	src: url('../fonts/Agreloycalmond-1GjxM.ttf') format('opentype');
+}
+
+body 
+{
+	margin: 0;
+	font-family: 'IM Fell English SC', serif;
+	background: #2e1f1f;
+	color: #f0e6d2;
+	text-align: center;
+}
+
+h2
+{
+	font-family: 'titre', serif;
+	text-align: center;
+	font-size: 2em;
+	padding: 1em 0;
+	background: linear-gradient(to right, #3a2c1c, #5e3f28);
+	color: #e3c784;
+	text-shadow: 3px 3px 2px #000;
+	border-bottom: 5px double #af7f3f;
+	border-top: 5px double #af7f3f;
+}
+
+.formulaire
+{
+	font-size: 1.08em;
+	margin: 2em auto;
+	text-shadow: 3px 3px 2px #000;
+	display: block;
+	font-family: 'texte', serif;
+}
+
+.bouton 
+{
+	all: unset;
+	font-family: 'bouton', sans-serif;
+	font-size: 1.3em;
+	padding: 12px;
+	background: linear-gradient(to bottom, #5b4025, #3e2c1a);
+	color: #f0e6d2;
+	border: 3px solid #c2883a;
+	border-radius: 10px;
+	cursor: pointer;
+	display: block;
+	width: 220px;
+	margin: 4em auto;
+	text-align: center;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+	transition: all 0.3s ease;
+}
+
+.bouton:hover 
+{
+	background: #6b4f33;
+	transform: scale(1.05);
+}
+
+.bouton_retour
+{
+	all: unset;
+	font-family: 'bouton', sans-serif;
+	font-size: 1.3em;
+	padding: 12px;
+	background: linear-gradient(to bottom, #5b4025, #3e2c1a);
+	color: #f0e6d2;
+	border: 3px solid #c2883a;
+	border-radius: 10px;
+	cursor: pointer;
+	display: block;
+	width: 220px;
+	margin: 1.2em auto;
+	text-align: center;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+	transition: all 0.3s ease;
+	position: absolute;
+	top: 40px;
+	right: 20px;
+}
+
+.bouton_retour:hover 
+{
+	background: #6b4f33;
+	transform: scale(1.05);
+}
+
+footer 
+{
+	bottom: 10px;
+	position: fixed;
+	width: 98.5%;
+	text-align: right;
+	font-size: 0.9em;
+	padding: 1em;
+	color: #af7f3f;
+	background: linear-gradient(to right, #3a2c1c, #5e3f28);
+	text-shadow: 3px 3px 2px #000;
+	border-bottom: 5px double #af7f3f;
+	border-top: 5px double #af7f3f;
+}
+
+footer a 
+{
+	color: #e3c784;
+	text-decoration: none;
+}
+
+footer a:hover 
+{
+	text-decoration: underline;
+}

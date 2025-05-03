@@ -1,0 +1,22 @@
+#resultat
+{
+	margin: 20px 0 5px 0;
+	text-align: center;
+}
+
+#copyright 
+{
+	margin: 20px 0 5px 0;
+	text-align: right;
+	font-size: .8em;
+	color: #d9ff03;
+}
+#copyright a 
+{
+	color: #d9ff03;
+	text-decoration: none;
+}
+#copyright a:hover, #copyright a:focus 
+{
+	text-decoration: underline;
+}

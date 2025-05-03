@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="../style/login.css" media="all" />
+        <title>Sondage : MonCompte : Connexion</title>
+    </head>
+
+    <body>
+        <h2>Page de Connexion a Mon Compte Sondage</h2>
+
+        <form class="formulaire" method="post" action="Sondage_Login.php">
+            Nom d'utilisateur : <br><input type="text" name="User" size="15" maxlength ="20" autofocus required><br><br>
+            Mot de passe : <br><input type="password" name="Password" size="15" maxlength ="20" required><br><br>
+
+            <input class="bouton" type="submit" value="Se connecter">
+        </form>
+        <br>
+        <form class="no_compte" method="post" action="../Inscription/Sondage_Inscription.html">
+            Pas de compte ?<br>
+            <input class="bouton" type="submit" value="Cree un compte">
+        </form>
+
+        <a class="bouton_retour" href="../Sondage_accueil.html">Retour vers l'accueil</a><br><br>
+
+        <!-- pied de page -->
+        <footer>
+            <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/">Contenu sous licence CC BY-NC-SA 3.0</a><br>
+            Lucas VELY ; version 1.0<br>
+            <a href="mailto:vely.lucas1606@gmail.com">Contacter l'auteur</a><br>
+        </footer>
+    </body>
+</html>
