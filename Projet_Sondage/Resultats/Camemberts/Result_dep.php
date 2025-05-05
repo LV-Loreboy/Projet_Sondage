@@ -28,12 +28,7 @@ function removeAccents($str)
 }
 
 // Récupération des données
-$requete = "
-    SELECT departement, sondage, COUNT(*) as nb 
-    FROM table_login 
-    WHERE sondage IN ('oeuf','ecrevisse','sans_opinion') 
-    GROUP BY departement, sondage
-";
+$requete = "SELECT departement, sondage, COUNT(*) as nb FROM table_login WHERE sondage IN ('traditionnels','numeriques','sans_opinion') GROUP BY departement, sondage";
 $resultat = $connexion->query($requete);
 
 $data = [];
@@ -60,10 +55,10 @@ $connexion->close();
 if (empty($data)) 
 {
     $image = imagecreatetruecolor(500, 100);
-    $white = imagecolorallocate($image, 255, 255, 255);
-    $black = imagecolorallocate($image, 0, 0, 0);
-    imagefill($image, 0, 0, $white);
-    imagestring($image, 5, 100, 40, "Aucun vote enregistre", $black);
+    $background = imagecolorallocate($image, 46, 31, 31);
+    $blanc = imagecolorallocate($image, 255, 255, 255);
+    imagefill($image, 0, 0, $background);
+    imagestring($image, 20, 150, 40, "Aucun vote enregistre", $blanc);
     header("Content-Type: image/png");
     imagepng($image);
     imagedestroy($image);
@@ -80,8 +75,8 @@ foreach ($data as $dep => $votes)
 // Défini les couleurs
 $colorsHex = 
 [
-    'oeuf' => [255, 99, 132],
-    'ecrevisse' => [54, 162, 235],
+    'traditionnels' => [255, 99, 132],
+    'numeriques' => [54, 162, 235],
     'sans_opinion' => [255, 206, 86]
 ];
 
@@ -96,9 +91,9 @@ $hauteur_du_graphe = $nb_de_departement * ($taille_de_la_barre + $espace_entre_b
 $largeur_du_graphe = 700;
 
 $image = imagecreatetruecolor($largeur_du_graphe, $hauteur_du_graphe);
-$white = imagecolorallocate($image, 255, 255, 255);
-$black = imagecolorallocate($image, 0, 0, 0);
-imagefill($image, 0, 0, $white);
+$background = imagecolorallocate($image, 46, 31, 31);
+$blanc = imagecolorallocate($image, 255, 255, 255);
+imagefill($image, 0, 0, $background);
 
 // Création des barres
 $y = $marge_haute;
@@ -107,7 +102,7 @@ foreach ($departements as $dep)
     $x = $marge_gauche;
     $votes = $data[$dep] ?? [];
     $total = array_sum($votes);
-    foreach (['oeuf', 'ecrevisse', 'sans_opinion'] as $option) 
+    foreach (['traditionnels', 'numeriques', 'sans_opinion'] as $option) 
     {
         $count = $votes[$option] ?? 0;
         $longueur_de_la_barre = ($votesMax > 0) ? ($count / $votesMax) * ($largeur_du_graphe - $marge_gauche - $marge_droite) : 0;
@@ -116,12 +111,12 @@ foreach ($departements as $dep)
 
         if ($count > 0) 
         {
-            imagestring($image, 3, $x + 3, $y + 7, $count, $black);
+            imagestring($image, 3, $x + 3, $y + 7, $count, $blanc);
         }
 
         $x += $longueur_de_la_barre;
     }
-    imagestring($image, 4, 10, $y + 7, $dep, $black);
+    imagestring($image, 4, 10, $y + 7, $dep, $blanc);
     $y += $taille_de_la_barre + $espace_entre_barre;
 }
 
@@ -130,19 +125,19 @@ $step = max(1, ceil($votesMax / 4));
 for ($i = 0; $i <= $votesMax; $i += $step) 
 {
     $x = $marge_gauche + ($i / $votesMax) * ($largeur_du_graphe - $marge_gauche - $marge_droite);
-    imagestring($image, 3, $x - 5, $marge_haute - 20, (string)$i, $black);
-    imageline($image, $x, $marge_haute - 5, $x, $y - 10, $black);
+    imagestring($image, 3, $x - 5, $marge_haute - 20, (string)$i, $blanc);
+    imageline($image, $x, $marge_haute - 5, $x, $y - 10, $blanc);
 }
 
 // Légende
-$legendX = $largeur_du_graphe - 120;
-$legendY = $marge_haute + 10;
+$legendX = $largeur_du_graphe - 125;
+$legendY = $marge_haute - 20;
 $index = 0;
-foreach (['oeuf' => 'Oeuf', 'ecrevisse' => 'Ecrevisse', 'sans_opinion' => 'Sans opinion'] as $key => $label) 
+foreach (['traditionnels' => 'Traditionnels', 'numeriques' => 'Numeriques', 'sans_opinion' => 'Sans opinion'] as $key => $label) 
 {
     $color = imagecolorallocate($image, ...$colorsHex[$key]);
     imagefilledrectangle($image, $legendX, $legendY + $index * 25, $legendX + 15, $legendY + $index * 25 + 15, $color);
-    imagestring($image, 4, $legendX + 20, $legendY + $index * 25, $label, $black);
+    imagestring($image, 4, $legendX + 20, $legendY + $index * 25, $label, $blanc);
     $index++;
 }
 

@@ -17,12 +17,12 @@ if ($connection ->connect_error)
 }
 
 // --- Initialisation des compteurs ---
-$Oeuf = 0;
-$Ecrevisse = 0;
+$Traditionnels = 0;
+$Numeriques = 0;
 $SansOpinion = 0;
 
 // --- Récupération des données depuis la base ---
-$query = "SELECT sondage, COUNT(*) AS nombre_votes FROM table_login WHERE sondage IN ('oeuf', 'ecrevisse', 'sans_opinion') GROUP BY sondage";
+$query = "SELECT sondage, COUNT(*) AS nombre_votes FROM table_login WHERE sondage IN ('traditionnels', 'numeriques', 'sans_opinion') GROUP BY sondage";
 
 $result = $connection->query($query);
 
@@ -32,11 +32,11 @@ if ($result)
     {
         switch ($row['sondage']) 
         {
-            case 'oeuf':
-                $Oeuf = (int)$row['nombre_votes'];
+            case 'traditionnels':
+                $Traditionnels = (int)$row['nombre_votes'];
                 break;
-            case 'ecrevisse':
-                $Ecrevisse = (int)$row['nombre_votes'];
+            case 'numeriques':
+                $Numeriques = (int)$row['nombre_votes'];
                 break;
             case 'sans_opinion':
                 $SansOpinion = (int)$row['nombre_votes'];
@@ -47,9 +47,9 @@ if ($result)
 $connection->close();
 
 // --- Calculs ---
-$totalVotes = $Oeuf + $Ecrevisse + $SansOpinion;
-$valeursVotes = [$Oeuf, $Ecrevisse, $SansOpinion];
-$Votes = ['Oeuf', 'Ecrevisse', 'Sans opinion'];
+$totalVotes = $Traditionnels + $Numeriques + $SansOpinion;
+$valeursVotes = [$Traditionnels, $Numeriques, $SansOpinion];
+$Votes = ['Traditionnels', 'Numeriques', 'Sans opinion'];
 $defRGB = 
 [
     [255, 99, 132],   // Rouge
@@ -64,11 +64,11 @@ $angles = array_map(function($nombre) use ($totalVotes)
 }, $valeursVotes);
 
 // --- Création de l’image ---
-$largeurImage = 650;
+$largeurImage = 652;
 $hauteurImage = 350; // Espace supplémentaire pour la légende
 $image = imagecreatetruecolor($largeurImage, $hauteurImage);
-$blanc = imagecolorallocate($image, 255, 255, 255);
-imagefill($image, 0, 0, $blanc);
+$background = imagecolorallocate($image, 46, 31, 31);
+imagefill($image, 0, 0, $background);
 
 // --- Création des couleurs pour les sections ---
 $couleurs = [];
@@ -105,7 +105,7 @@ if ($totalVotes === 0)
 // --- Affichage de la légende dynamique ---
 $posX = 360;
 $posY = 50;
-$noir = imagecolorallocate($image, 0, 0, 0);
+$blanc = imagecolorallocate($image, 255, 255, 255);
 
 for ($i = 0; $i < count($valeursVotes); $i++) 
 {
@@ -116,7 +116,7 @@ for ($i = 0; $i < count($valeursVotes); $i++)
     imagefilledrectangle($image, $posX, $posY + ($i * 25), $posX + 15, $posY + ($i * 25) + 15, $couleurs[$i]);
     
     // texte
-    imagestring($image, 5, $posX + 25, $posY + ($i * 25), $texteLegende, $noir);
+    imagestring($image, 5, $posX + 25, $posY + ($i * 25), $texteLegende, $blanc);
 }
 
 // --- Affichage de l’image dans le navigateur ---

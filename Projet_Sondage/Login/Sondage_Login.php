@@ -49,7 +49,8 @@ if (isset($_POST["User"]) && isset($_POST["Password"]))
         $resultat = $connexion->query($requete);
         if ($resultat->fetchColumn() == 0) // retourne le nombre de lignes
         {
-            print "<p>Erreur : le nom d'utilisateur <strong>$utilisateur</strong> n'existe pas !</p>";
+            print "<h2>Mon Compte Sondage</h2>";
+            print "<no_compte> Erreur : le nom d'utilisateur <strong>$utilisateur</strong> n'existe pas !</no_compte>";
         }
         else 
         {
@@ -59,14 +60,17 @@ if (isset($_POST["User"]) && isset($_POST["Password"]))
             if ($_POST["Password"] == $ligne['mot_de_passe'])
             {
                 print "<h2>Bienvenue, <strong>$utilisateur</strong></h2>";
-                print "<br>-------------------------------------------------------------<br><br>";
-                print "Nom d'utilisateur : <strong>".$ligne['utilisateur']."</strong><br><br>";
-                print "Date d'inscription : <strong>".$ligne['date_inscription']."</strong><br><br>";
-                print "Date de naissance : <strong>".$ligne['date_naissance']."</strong><br><br>";
-                print "Departement de naissance : <strong>".$ligne['departement']."</strong><br><br>";
-                print "Genre : <strong>".$ligne['genre']."</strong><br><br>";
+                print "<p>Nom d'utilisateur : <br><strong>".$ligne['utilisateur']."</strong></p><br>";
+                print "<p>Date d'inscription : <br><strong>".$ligne['date_inscription']."</strong></p><br>";
+                print "<p>Date de naissance : <br><strong>".$ligne['date_naissance']."</strong></p><br>";
+                print "<p>Departement de naissance : <br><strong>".$ligne['departement']."</strong></p><br>";
+                print "<p>Genre : <br><strong>".$ligne['genre']."</strong></p><br><br>";
             }
-            else print "<p>Erreur : Mot de passe invalide !</p>";
+            else
+            {
+                print "<h2>Mon Compte Sondage</h2>";
+                print "<p>Erreur : Mot de passe invalide !</p>";
+            } 
         }
     }
 }
@@ -75,13 +79,13 @@ else print "<p>Valeurs invalides !</p>";
 // Déconnexion
 $connexion = null;
 ?>
-        <form method="post" action="Sondage_Login.html"><input type="submit" value="Deconnexion"></form><br>
-        <form method="post" action="../Sondage_accueil.html"><input type="submit" value="Deconnexion et retour a l'accueil"></form><br><br>
-        <!-- pied de page ; version 1.3.7.28 -->
-        <p id="copyright">
+        <a class="bouton_retour" href="Sondage_Login.html">Deconnexion</a><br><br>
+
+        <!-- pied de page -->
+        <footer>
             <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/">Contenu sous licence CC BY-NC-SA 3.0</a><br>
             Lucas VELY ; version 1.0<br>
             <a href="mailto:vely.lucas1606@gmail.com">Contacter l'auteur</a><br>
-        </p>
+        </footer>
     </body>
 </html> 

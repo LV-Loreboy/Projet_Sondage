@@ -59,27 +59,30 @@ if (isset($_POST["User"]) && isset($_POST["Password"]))
             if ($_POST["Password"] == $ligne['mot_de_passe'])
             {
                 print "<h2>Bienvenue, <strong>$utilisateur</strong></h2>";
-                print "<br>-------------------------------------------------------------<br><br>";
+
                 if ($ligne['sondage'] == "")
                 {
-                    print "Voice le sondage :";
+                    print "<p>Voici le sondage</p>";
                     ?>
-                        <form method="post" action="Sondage_Sondage_Post_Sondage.php">
-                        L'oeuf ou l'ecrevisse ? : <label for="Sondage">
+                        <form class="formulaire" method="post" action="Sondage_Sondage_Post_Sondage.php">
+                        <p1>Pour vous informer, vous utilisez surtout… </p1><br><br><label for="Sondage"></label>
                         <select name="Sondage" id="Sondage">
-                            <option value="oeuf">A - Oeuf</option>
-                            <option value="ecrevisse">B - Ecrevisse</option>
-                            <option value="sans_opinion">X - Sans opinion</option>
+                            <option value="traditionnels">Médias traditionnels (TV, journaux papier)</option>
+                            <option value="numeriques">Médias numériques (réseaux sociaux, sites web)</option>
+                            <option value="sans_opinion">Sans opinion</option>
                         </select>
-                        <br><br>-------------------------------------------------------------<br><br>
-                        Entrez votre nom d'utilisateur pour pouvoir valider le sondage : <input type="text" name="User" size="15" maxlength ="20" autofocus required><br><br>
-                        <input type="submit" value="Envoyer mon choix (NON MODIFIABLE)"><br>
+                        <br><br><br><br><br><br><br><br>
+                        Entrez votre nom d'utilisateur pour pouvoir valider le sondage : <br><input type="text" name="User" size="15" maxlength ="20" autofocus required><br><br>
+                        <input class="bouton" type="submit" value="Envoyer mon choix (non modifiable)"><br>
                         </form>
                     <?php
                 }
-                else print "<p>Erreur : Vous avez deja fait le sondage ! Vous avez choisi : <strong>".$ligne['sondage']."</strong></p>";
+                else print "<formulaire>Erreur : Vous avez deja fait le sondage !</formulaire> <br><p2>Vous avez voté...</p2> <br><p><strong>Médias ".$ligne['sondage']."</strong></p><br>";
             }
-            else print "<p>Erreur : Mot de passe invalide !</p>";
+            else
+            {
+                print "<p>Erreur : Mot de passe invalide !</p>";
+            }
         }
     }
 }
@@ -88,13 +91,14 @@ else print "<p>Valeurs invalides !</p>";
 // Déconnexion
 $connexion = null;
 ?>
-        <br><form method="post" action="../Sondage_accueil.html"><input type="submit" value="Retour a l'accueil"></form><br><br>
+        <br><br><a class="bouton" href="../Resultats/Sondage_Resultats.html">Voir les resultats</a>
+        <a class="bouton_retour" href="Sondage_Sondage.html">Deconnexion</a>
 
-        <!-- pied de page ; version 1.3.7.28 -->
-        <p id="copyright">
+        <!-- pied de page -->
+        <footer>
             <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/">Contenu sous licence CC BY-NC-SA 3.0</a><br>
             Lucas VELY ; version 1.0<br>
             <a href="mailto:vely.lucas1606@gmail.com">Contacter l'auteur</a><br>
-        </p>
+        </footer>
     </body>
 </html> 

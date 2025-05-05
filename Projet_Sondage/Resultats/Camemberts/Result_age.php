@@ -16,8 +16,7 @@ if ($connection->connect_error)
 }
 
 // Récupération des données nécessaires
-$query = "SELECT date_naissance, sondage FROM $TABLE 
-          WHERE sondage IN ('oeuf', 'ecrevisse', 'sans_opinion') AND date_naissance IS NOT NULL";
+$query = "SELECT date_naissance, sondage FROM $TABLE WHERE sondage IN ('traditionnels', 'numeriques', 'sans_opinion') AND date_naissance IS NOT NULL";
 
 $result = $connection->query($query);
 
@@ -51,7 +50,7 @@ while ($row = $result->fetch_assoc())
 
     if (!isset($data[$range])) 
     {
-        $data[$range] = ['oeuf' => 0, 'ecrevisse' => 0, 'sans_opinion' => 0];
+        $data[$range] = ['traditionnels' => 0, 'numeriques' => 0, 'sans_opinion' => 0];
     }
 
     $data[$range][$row['sondage']]++;
@@ -63,10 +62,10 @@ $connection->close();
 if (empty($data)) 
 {
     $image = imagecreatetruecolor(500, 100);
-    $white = imagecolorallocate($image, 255, 255, 255);
-    $black = imagecolorallocate($image, 0, 0, 0);
-    imagefill($image, 0, 0, $white);
-    imagestring($image, 5, 100, 40, "Aucun vote enregistré", $black);
+    $background = imagecolorallocate($image, 46, 31, 31);
+    $blanc = imagecolorallocate($image, 255, 255, 255);
+    imagefill($image, 0, 0, $background);
+    imagestring($image, 5, 150, 40, "Aucun vote enregistre", $blanc);
     header("Content-Type: image/png");
     imagepng($image);
     imagedestroy($image);
@@ -76,11 +75,11 @@ if (empty($data))
 // --- Préparation du graphique ---
 $barHeight = 20;
 $barSpacing = 15;
-$margin = 100;
+$margin = 150;
 $barColors = 
 [
-    'oeuf' => [255, 99, 132],
-    'ecrevisse' => [54, 162, 235],
+    'traditionnels' => [255, 99, 132],
+    'numeriques' => [54, 162, 235],
     'sans_opinion' => [255, 206, 86]
 ];
 
@@ -104,20 +103,20 @@ foreach ($orderedData as $votes)
 }
 
 $barUnitWidth = 40;
-$imgWidth = $margin + ($maxTotal * $barUnitWidth) + 150;
+$imgWidth = $margin + ($maxTotal * $barUnitWidth) + 200;
 $imgHeight = count($orderedData) * ($barHeight + $barSpacing) + 100;
 
 $image = imagecreatetruecolor($imgWidth, $imgHeight);
-$white = imagecolorallocate($image, 255, 255, 255);
-$black = imagecolorallocate($image, 0, 0, 0);
-imagefill($image, 0, 0, $white);
+$background = imagecolorallocate($image, 46, 31, 31);
+$blanc = imagecolorallocate($image, 255, 255, 255);
+imagefill($image, 0, 0, $background);
 
 // Dessin des barres horizontales
 $y = 30;
 foreach ($orderedData as $range => $votes) 
 {
     $x = $margin;
-    foreach (['oeuf', 'ecrevisse', 'sans_opinion'] as $type) 
+    foreach (['traditionnels', 'numeriques', 'sans_opinion'] as $type) 
     {
         $val = $votes[$type];
         $width = $val * $barUnitWidth;
@@ -125,23 +124,23 @@ foreach ($orderedData as $range => $votes)
         $color = imagecolorallocate($image, ...$rgb);
         imagefilledrectangle($image, $x, $y, $x + $width, $y + $barHeight, $color);
         if ($val > 0) {
-            imagestring($image, 4, $x + 2, $y + 2, $val, $black);
+            imagestring($image, 4, $x + 2, $y + 2, $val, $blanc);
         }
         $x += $width;
     }
-    imagestring($image, 4, 10, $y + 2, $range, $black);
+    imagestring($image, 4,  0, $y + 2, $range, $blanc);
     $y += $barHeight + $barSpacing;
 }
 
 // Légende
 $legendX = $imgWidth - 140;
 $legendY = 30;
-foreach (['oeuf' => 'Oeuf', 'ecrevisse' => 'Ecrevisse', 'sans_opinion' => 'Sans opinion'] as $key => $label) 
+foreach (['traditionnels' => 'Traditionnels', 'numeriques' => 'Numeriques', 'sans_opinion' => 'Sans opinion'] as $key => $label) 
 {
     $rgb = $barColors[$key];
     $color = imagecolorallocate($image, ...$rgb);
     imagefilledrectangle($image, $legendX, $legendY, $legendX + 15, $legendY + 15, $color);
-    imagestring($image, 4, $legendX + 20, $legendY, $label, $black);
+    imagestring($image, 4, $legendX + 20, $legendY, $label, $blanc);
     $legendY += 25;
 }
 

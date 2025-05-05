@@ -38,6 +38,23 @@ h2
 	border-top: 5px double #af7f3f;
 }
 
+p
+{
+	font-family: 'bouton', sans-serif;
+	font-size: 1.4em;
+	background: linear-gradient(to bottom, #5b4025, #3e2c1a);
+	color: #f0e6d2;
+	border: 3px solid #c2883a;
+	width: 230px;
+	text-align: center;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+	margin: 15px auto;
+	border-bottom: 5px double #af7f3f;
+	border-top: 5px double #af7f3f;
+	border-left: 5px double #af7f3f;
+	border-right: 5px double #af7f3f;
+}
+
 .formulaire
 {
 	font-size: 1.2em;

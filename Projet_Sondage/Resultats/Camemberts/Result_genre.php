@@ -14,7 +14,7 @@ if ($connection->connect_error)
 }
 
 $genres = ["Homme", "Femme", "Non precise"];
-$reponses = ["oeuf", "ecrevisse", "sans_opinion"];
+$reponses = ["traditionnels", "numeriques", "sans_opinion"];
 $data = [];
 
 // Initialiser les compteurs
@@ -27,11 +27,7 @@ foreach ($reponses as $rep)
 }
 
 // Récupérer les données groupées
-$query = "SELECT sondage, genre, COUNT(*) as total 
-          FROM table_login 
-          WHERE sondage IN ('oeuf', 'ecrevisse', 'sans_opinion') 
-          AND genre IN ('Homme', 'Femme', 'Non precise')
-          GROUP BY sondage, genre";
+$query = "SELECT sondage, genre, COUNT(*) as total FROM table_login WHERE sondage IN ('traditionnels', 'numeriques', 'sans_opinion') AND genre IN ('Homme', 'Femme', 'Non precise') GROUP BY sondage, genre";
 
 $result = $connection->query($query);
 if ($result) 
@@ -46,7 +42,7 @@ if ($result)
 $connection->close();
 
 // --- Création de l’image ---
-$largeurImage = 500;
+$largeurImage = 600;
 $hauteurImage = 400;
 $margeGauche = 50;
 $margeBas = 50;
@@ -54,7 +50,7 @@ $margeTop = 30;
 $margeDroite = 20;
 
 $barreLargeur = 20;
-$espacementGroupes = 80;
+$espacementGroupes = 150;
 $espacementEntreBarres = 10;
 
 $font = 5;
@@ -62,7 +58,7 @@ $font = 5;
 // Couleurs
 $image = imagecreatetruecolor($largeurImage, $hauteurImage);
 $blanc = imagecolorallocate($image, 255, 255, 255);
-$noir = imagecolorallocate($image, 0, 0, 0);
+$background = imagecolorallocate($image, 46, 31, 31);
 $couleurs = 
 [
     "Homme" => imagecolorallocate($image, 70, 130, 180),      // Bleu
@@ -70,7 +66,7 @@ $couleurs =
     "Non precise" => imagecolorallocate($image, 160, 160, 160) // Gris
 ];
 
-imagefill($image, 0, 0, $blanc);
+imagefill($image, 0, 0, $background);
 
 // Détermination du maximum pour l’échelle
 $valeurs = [];
@@ -85,8 +81,8 @@ $valeurMax = max($valeurs);
 $valeurMax = ($valeurMax < 5) ? 5 : ceil($valeurMax / 5) * 5; // arrondi supérieur
 
 // Dessin des axes
-imageline($image, $margeGauche, $margeTop, $margeGauche, $hauteurImage - $margeBas, $noir); // axe Y
-imageline($image, $margeGauche, $hauteurImage - $margeBas, $largeurImage - $margeDroite, $hauteurImage - $margeBas, $noir); // axe X
+imageline($image, $margeGauche, $margeTop, $margeGauche, $hauteurImage - $margeBas, $blanc); // axe Y
+imageline($image, $margeGauche, $hauteurImage - $margeBas, $largeurImage - $margeDroite - 100, $hauteurImage - $margeBas, $blanc); // axe X
 
 // Graduation axe Y
 $nbGraduations = 5;
@@ -94,8 +90,8 @@ for ($i = 0; $i <= $nbGraduations; $i++)
 {
     $y = $hauteurImage - $margeBas - ($i * (($hauteurImage - $margeBas - $margeTop) / $nbGraduations));
     $val = $i * ($valeurMax / $nbGraduations);
-    imagestring($image, 3, 5, $y - 7, $val, $noir);
-    imageline($image, $margeGauche - 5, $y, $margeGauche, $y, $noir);
+    imagestring($image, 3, 5, $y - 7, $val, $blanc);
+    imageline($image, $margeGauche - 5, $y, $margeGauche, $y, $blanc);
 }
 
 // Dessin des barres
@@ -122,18 +118,18 @@ foreach ($data as $sondage => $genresData)
     }
 
     // Nom du groupe
-    imagestring($image, 4, $baseX + 10, $hauteurImage - $margeBas + 5, ucfirst($sondage), $noir);
+    imagestring($image, 4, $baseX + 10, $hauteurImage - $margeBas + 5, ucfirst($sondage), $blanc);
     $groupe++;
 }
 
 // Légende
-$legendX = $largeurImage - 140;
+$legendX = $largeurImage - 100;
 $legendY = 30;
 $index = 0;
 foreach ($genres as $genre) 
 {
     imagefilledrectangle($image, $legendX, $legendY + $index * 20, $legendX + 15, $legendY + $index * 20 + 15, $couleurs[$genre]);
-    imagestring($image, 3, $legendX + 20, $legendY + $index * 20, $genre, $noir);
+    imagestring($image, 3, $legendX + 20, $legendY + $index * 20, $genre, $blanc);
     $index++;
 }
 

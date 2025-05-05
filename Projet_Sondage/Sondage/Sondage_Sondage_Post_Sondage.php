@@ -57,8 +57,7 @@ if (isset($_POST["User"]) && isset($_POST["Sondage"]))
             $resultat = $connexion->query($requete);
 
             print "<h2>Merci de votre participation <strong>$utilisateur</strong></h2><br>";
-            print "<p>Vous avez voté <strong>$sondage</strong><br>";
-            print "<br>-------------------------------------------------------------<br><br>";
+            print "<p2>Vous avez voté...</p2> <br><p><strong>Médias $sondage</strong></p><br>";
         }
     }
 }
@@ -67,14 +66,15 @@ else print "<p>Valeurs invalides !</p>";
 // Déconnexion
 $connexion = null;
 ?>
-        <form method="post" action="../Sondage_accueil.html"><input type="submit" value="Retour a l'accueil"></form><br><br>
-        <form method="post" action="../Resultats/Sondage_Resultats.html"><input type="submit" value="Voir les resultats"></form><br><br>
-        
-        <!-- pied de page ; version 1.3.7.28 -->
-        <p id="copyright">
+        <br><br><br><br><br><br>
+        <a class="bouton" href="../Resultats/Sondage_Resultats.html">Voir les resultats</a>
+        <a class="bouton_retour" href="../Sondage_accueil.html">Retour a l'accueil</a>
+
+        <!-- pied de page -->
+        <footer>
             <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/fr/">Contenu sous licence CC BY-NC-SA 3.0</a><br>
             Lucas VELY ; version 1.0<br>
             <a href="mailto:vely.lucas1606@gmail.com">Contacter l'auteur</a><br>
-        </p>
+        </footer>
     </body>
 </html> 
